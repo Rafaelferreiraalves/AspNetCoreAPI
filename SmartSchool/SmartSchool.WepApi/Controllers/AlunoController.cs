@@ -42,9 +42,9 @@ namespace SmartSchool.WepApi.Controllers
         [HttpGet("{name}")]
         public IActionResult Get(string name)
         {
-            Aluno aluno = (from alunoSelected in Alunos
+            var aluno = (from alunoSelected in Alunos
                            where alunoSelected.Nome.Contains(name)
-                           select alunoSelected).FirstOrDefault();
+                           select alunoSelected);
             if (aluno != null)
                 return Ok(aluno);
             else
