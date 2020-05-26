@@ -15,6 +15,7 @@ namespace SmartSchool.WepApi
         {
             CreateHostBuilder(args).Build().Run();
             
+            
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
