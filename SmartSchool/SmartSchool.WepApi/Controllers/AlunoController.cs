@@ -15,23 +15,17 @@ namespace SmartSchool.WepApi.Controllers
     public class AlunoController : ControllerBase
     {
         private readonly DataContext context;
-        public AlunoController(DataContext context)
+        private readonly IRepository repo;
+        public AlunoController(DataContext context, IRepository repo)
         {
             this.context = context;
+            this.repo = repo;
         }
-        public List<Aluno> Alunos = new List<Aluno>()
-        {
-            new Aluno(){ Id =1,Nome="Marcos",Telefone="12355"},
-            new Aluno(){ Id =2,Nome="Marta",Telefone="4567"},
-            new Aluno(){ Id =3,Nome="Lucas",Telefone="55434"},
-                   new Aluno(){ Id =4,Nome="Laura",Telefone="67899"},
-        };
-
         // GET: api/Aluno
         [HttpGet]
         public IEnumerable<Aluno> Get()
         {
-            return context.Alunos;
+            return context.Alunos.ToList();
         }
 
         // GET: api/Aluno/5
@@ -64,13 +58,13 @@ namespace SmartSchool.WepApi.Controllers
         {
             try
             {
-                context.Alunos.Add(value);
-                context.SaveChanges();
+
+                repo.Add(value);
+                repo.SaveChanges();
             }
             catch (Exception ex)
             {
-
-
+                
             }
         }
 
@@ -84,8 +78,9 @@ namespace SmartSchool.WepApi.Controllers
             {
                 return BadRequest();
             }
-            context.Update(value);
-            context.SaveChanges();
+
+            repo.Update(value);
+            repo.SaveChanges();
 
             return Ok();
         }
@@ -100,8 +95,8 @@ namespace SmartSchool.WepApi.Controllers
                 return BadRequest();
             }
 
-            context.Alunos.Remove(aluno);
-            context.SaveChanges();
+            repo.Delete(aluno);
+            repo.SaveChanges();
             return Ok();
         }
     }

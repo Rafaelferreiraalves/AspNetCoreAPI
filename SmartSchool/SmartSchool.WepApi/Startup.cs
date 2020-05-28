@@ -27,6 +27,7 @@ namespace SmartSchool.WepApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<DataContext>(context => context.UseSqlite(Configuration.GetConnectionString("default"))) ;
+            services.AddScoped<IRepository, Repository>();
             services.AddControllers();
         }
 
