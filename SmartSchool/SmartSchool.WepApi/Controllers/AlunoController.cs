@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using SmartSchool.WepApi.Data;
 using SmartSchool.WepApi.Models;
 
@@ -77,8 +78,9 @@ namespace SmartSchool.WepApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Aluno value)
         {
+            var aluno = context.Alunos.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
           
-            if (id == 0 )
+            if (id == 0 || aluno == null)
             {
                 return BadRequest();
             }
@@ -92,8 +94,7 @@ namespace SmartSchool.WepApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var aluno = context.Alunos.Where(x => x.Id == id).FirstOrDefault();
-            if (id == 0 || aluno == null)
+d            if (id == 0 || aluno == null)
             {
                 return BadRequest();
             }
