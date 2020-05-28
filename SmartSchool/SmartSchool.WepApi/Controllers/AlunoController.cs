@@ -79,7 +79,7 @@ namespace SmartSchool.WepApi.Controllers
         public IActionResult Put(int id, [FromBody] Aluno value)
         {
             var aluno = context.Alunos.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
-          
+
             if (id == 0 || aluno == null)
             {
                 return BadRequest();
@@ -94,7 +94,8 @@ namespace SmartSchool.WepApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-d            if (id == 0 || aluno == null)
+            var aluno = context.Alunos.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+            if (id == 0 || aluno == null)
             {
                 return BadRequest();
             }
