@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartSchool.WepApi.Data;
 using SmartSchool.WepApi.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Net.Http;
 
 namespace SmartSchool.WepApi.Controllers
 {
