@@ -106,7 +106,7 @@ namespace SmartSchool.WepApi.Data
             return query.AsTracking().ToArray();
         }
 
-        public Professor[] GetAllProfessoresById(int professorId, bool includeDisciplinas = false)
+        public Professor GetProfessorById(int professorId, bool includeDisciplinas = false)
         {
             IQueryable<Professor> query = context.Professor;
             if (includeDisciplinas)
@@ -118,7 +118,7 @@ namespace SmartSchool.WepApi.Data
             }
 
             query = query.AsNoTracking().Where(x => x.Id == professorId);
-            return query.ToArray();
+            return query.FirstOrDefault();
         }
 
     

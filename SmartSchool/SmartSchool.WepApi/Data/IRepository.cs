@@ -24,7 +24,7 @@ namespace SmartSchool.WepApi.Data
         Professor[] GetAllProfessores(bool includeDisciplinas = false);
 
         Professor[] GetAllProfessorByDisciplina(int disciplinaId, bool includeDisciplinas = false);
-        Professor[] GetAllProfessoresById(int professorId, bool includeDisciplinas = false);
+        Professor GetProfessorById(int professorId, bool includeDisciplinas = false);
 
 
 

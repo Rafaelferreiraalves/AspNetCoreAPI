@@ -14,51 +14,48 @@ namespace SmartSchool.WepApi.Controllers
     [ApiController]
     public class ProfessorController : ControllerBase
     {
-        private readonly DataContext context;
-        public ProfessorController(DataContext context) 
+        private readonly IRepository repo;
+        public ProfessorController(IRepository repo) 
         {
-
-            this.context = context;
+            this.repo = repo;
+          
         }
 
         [HttpGet]
         public IEnumerable<Professor> Get()
         {
-            return context.Professor;
+            return repo.GetAllProfessores();
         }
 
         // GET: api/Aluno/5
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            Professor aluno = (from alunoSelected in context.Professor
-                           where alunoSelected.Id == id
-                           select alunoSelected).FirstOrDefault();
-            if (aluno != null)
-                return Ok(aluno);
-            else
-                return NotFound("Voce se fudeu hein");
-        }
-        [HttpGet("{name}")]
-        public IActionResult Get(string name)
-        {
-            var aluno = (from alunoSelected in context.Professor
-                         where alunoSelected.Nome.Contains(name)
-                         select alunoSelected);
-            if (aluno != null)
-                return Ok(aluno);
-            else
-                return NotFound("Voce se fudeu hein");
-        }
+            try
+            {
+                Professor professor = repo.GetProfessorById(id, true);
+                if (professor != null)
+                    return Ok(professor);
+                else
+                    return NotFound("Voce se fudeu hein");
+            }
+            catch (Exception ex )
+            {
+                string messa = ex.Message;
 
+                return BadRequest();
+            }
+         
+        
+        }
         // POST: api/Aluno
         [HttpPost]
         public void Post([FromBody] Professor value)
         {
             try
             {
-                context.Professor.Add(value);
-                context.SaveChanges();
+                repo.Add(value);
+                repo.SaveChanges();
             }
             catch (Exception ex)
             {
@@ -71,14 +68,14 @@ namespace SmartSchool.WepApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Professor value)
         {
-            var aluno = context.Professor.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+            var professor = repo.GetProfessorById(id, true);
 
-            if (id == 0 || aluno == null)
+            if (id == 0 || professor == null)
             {
                 return BadRequest();
             }
-            context.Update(value);
-            context.SaveChanges();
+            repo.Update(value);
+            repo.SaveChanges();
 
             return Ok();
         }
@@ -87,14 +84,14 @@ namespace SmartSchool.WepApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var aluno = context.Professor.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
-            if (id == 0 || aluno == null)
+            var professor = repo.GetProfessorById(id, true);
+            if (id == 0 || professor == null)
             {
                 return BadRequest();
             }
 
-            context.Professor.Remove(aluno);
-            context.SaveChanges();
+            repo.Delete(professor);
+            repo.SaveChanges();
             return Ok();
         }
     }
