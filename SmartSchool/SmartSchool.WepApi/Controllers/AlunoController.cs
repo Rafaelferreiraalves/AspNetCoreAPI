@@ -16,7 +16,7 @@ namespace SmartSchool.WepApi.Controllers
     {
         private readonly IRepository repo;
 
-        public string b;
+        public string d;
         public AlunoController(IRepository repo)
         {
             this.repo = repo;
