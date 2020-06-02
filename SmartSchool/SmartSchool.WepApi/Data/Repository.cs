@@ -48,7 +48,7 @@ namespace SmartSchool.WepApi.Data
             return query.ToArray();
         }
 
-        public Aluno[] GetAllByDisciplinaId(bool includeDisciplinas = false)
+        public Aluno[] GetAllByDisciplinaId(int disciplicaId,bool includeDisciplinas = false)
         {
             IQueryable<Aluno> query = context.Alunos;
             if (includeDisciplinas)
@@ -57,7 +57,7 @@ namespace SmartSchool.WepApi.Data
                     .ThenInclude(disciplina => disciplina.Disciplina).ThenInclude(d => d.Professor);
             }
 
-            query = query.AsNoTracking();
+            query = query.AsNoTracking().Where(aluno => aluno.AlunoDisciplina.Any(x => x.DisciplinaId == disciplicaId));
 
             return query.ToArray();
         }
@@ -77,19 +77,48 @@ namespace SmartSchool.WepApi.Data
 
         }
 
-        public Professor[] GetAllProfessores()
+        public Professor[] GetAllProfessores(bool includeDisciplinas = false)
         {
-            throw new NotImplementedException();
+            IQueryable<Professor> query = context.Professor;
+            if (includeDisciplinas)
+            {
+                query = query.Include(p => p.Disciplinas)
+                    .ThenInclude(d => d.AlunoDisciplina)
+                    .ThenInclude(d => d.Aluno);
+                   
+            }
+            return query.AsTracking().ToArray();
         }
 
-        public Professor[] GetAllProfessorByDisciplina()
+        public Professor[] GetAllProfessorByDisciplina(int disciplinaId,bool includeDisciplinas=false)
         {
-            throw new NotImplementedException();
+            IQueryable<Professor> query = context.Professor;
+            if (includeDisciplinas)
+            {
+                query = query.Include(p => p.Disciplinas)
+                    .ThenInclude(d => d.AlunoDisciplina)
+                    .ThenInclude(d => d.Aluno);
+
+            }
+
+            query = query.AsNoTracking().Where(x => x.Disciplinas.Any(x => x.AlunoDisciplina.Any(x => x.DisciplinaId == disciplinaId)));
+
+            return query.AsTracking().ToArray();
         }
 
-        public Professor[] GetAllProfessoresById()
+        public Professor[] GetAllProfessoresById(int professorId, bool includeDisciplinas = false)
         {
-            throw new NotImplementedException();
+            IQueryable<Professor> query = context.Professor;
+            if (includeDisciplinas)
+            {
+                query = query.Include(p => p.Disciplinas)
+                    .ThenInclude(d => d.AlunoDisciplina)
+                    .ThenInclude(d => d.Aluno);
+
+            }
+
+            query = query.AsNoTracking().Where(x => x.Id == professorId);
+            return query.ToArray();
         }
     }
 }

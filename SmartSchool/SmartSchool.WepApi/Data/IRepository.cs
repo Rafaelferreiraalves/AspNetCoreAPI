@@ -16,15 +16,15 @@ namespace SmartSchool.WepApi.Data
         //Alunos
         Aluno[] GetAllAlunos(bool includeDisciplinas=false);
 
-        Aluno[] GetAllByDisciplinaId(bool includeDisciplinas=false);
+        Aluno[] GetAllByDisciplinaId(int disciplicaId, bool includeDisciplinas=false);
         Aluno[] GetAlunoById(int id, bool includeDisciplinas=false);
 
         //Professores
 
-        Professor[] GetAllProfessores();
+        Professor[] GetAllProfessores(bool includeDisciplinas = false);
 
-        Professor[] GetAllProfessorByDisciplina();
-        Professor[] GetAllProfessoresById();
+        Professor[] GetAllProfessorByDisciplina(int disciplinaId, bool includeDisciplinas = false);
+        Professor[] GetAllProfessoresById(int professorId, bool includeDisciplinas = false);
 
 
 
