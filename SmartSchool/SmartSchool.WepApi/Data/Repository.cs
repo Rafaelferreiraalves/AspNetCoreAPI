@@ -62,7 +62,7 @@ namespace SmartSchool.WepApi.Data
             return query.ToArray();
         }
 
-        public Aluno[] GetAlunoById(int id, bool includeDisciplinas = false)
+        public Aluno GetAlunoById(int id, bool includeDisciplinas = false)
         {
             IQueryable<Aluno> query = context.Alunos;
             if (includeDisciplinas)
@@ -73,7 +73,7 @@ namespace SmartSchool.WepApi.Data
 
             query = query.AsNoTracking().Where(aluno => aluno.Id == id);
 
-            return query.ToArray();
+            return query.FirstOrDefault();
 
         }
 
@@ -120,5 +120,7 @@ namespace SmartSchool.WepApi.Data
             query = query.AsNoTracking().Where(x => x.Id == professorId);
             return query.ToArray();
         }
+
+    
     }
 }

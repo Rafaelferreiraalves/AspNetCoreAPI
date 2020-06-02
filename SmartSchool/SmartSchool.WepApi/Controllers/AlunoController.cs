@@ -14,44 +14,28 @@ namespace SmartSchool.WepApi.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
-        private readonly DataContext context;
         private readonly IRepository repo;
-        public AlunoController(DataContext context, IRepository repo)
+        public AlunoController(IRepository repo)
         {
-            this.context = context;
             this.repo = repo;
         }
         // GET: api/Aluno
         [HttpGet]
         public IEnumerable<Aluno> Get()
         {
-            return context.Alunos.ToList();
+            return repo.GetAllAlunos();
         }
 
         // GET: api/Aluno/5
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
-            Aluno aluno = (from alunoSelected in context.Alunos
-                           where alunoSelected.Id == id
-                           select alunoSelected).FirstOrDefault();
+            Aluno aluno = repo.GetAlunoById(id);
             if (aluno != null)
                 return Ok(aluno);
             else
                 return NotFound("Voce se fudeu hein");
         }
-        [HttpGet("{name}")]
-        public IActionResult Get(string name)
-        {
-            var aluno = (from alunoSelected in context.Alunos
-                         where alunoSelected.Nome.Contains(name)
-                         select alunoSelected);
-            if (aluno != null)
-                return Ok(aluno);
-            else
-                return NotFound("Voce se fudeu hein");
-        }
-
         // POST: api/Aluno
         [HttpPost]
         public void Post([FromBody] Aluno value)
@@ -72,13 +56,7 @@ namespace SmartSchool.WepApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Aluno value)
         {
-            var aluno = context.Alunos.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
-
-            if (id == 0 || aluno == null)
-            {
-                return BadRequest();
-            }
-
+           
             repo.Update(value);
             repo.SaveChanges();
 
@@ -89,7 +67,7 @@ namespace SmartSchool.WepApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            var aluno = context.Alunos.AsNoTracking().Where(x => x.Id == id).FirstOrDefault();
+            var aluno = repo.GetAlunoById(id);
             if (id == 0 || aluno == null)
             {
                 return BadRequest();

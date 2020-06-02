@@ -17,7 +17,7 @@ namespace SmartSchool.WepApi.Data
         Aluno[] GetAllAlunos(bool includeDisciplinas=false);
 
         Aluno[] GetAllByDisciplinaId(int disciplicaId, bool includeDisciplinas=false);
-        Aluno[] GetAlunoById(int id, bool includeDisciplinas=false);
+        Aluno GetAlunoById(int id, bool includeDisciplinas = false);
 
         //Professores
 
