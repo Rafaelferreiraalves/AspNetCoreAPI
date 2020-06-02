@@ -14,9 +14,6 @@ namespace SmartSchool.WepApi.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
-
-
-
         private readonly IRepository repo;
         private string teste;
         public AlunoController(IRepository repo)
