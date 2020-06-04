@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.EntityFrameworkCore;
 using SmartSchool.WepApi.Data;
+using SmartSchool.WepApi.Dtos;
 using SmartSchool.WepApi.Models;
 
 namespace SmartSchool.WepApi.Controllers
@@ -15,16 +18,19 @@ namespace SmartSchool.WepApi.Controllers
     public class AlunoController : ControllerBase
     {
         private readonly IRepository repo;
-        private string teste;
-        public AlunoController(IRepository repo)
+        private readonly IMapper imapper;
+        public AlunoController(IRepository repo, IMapper imapper)
         {
             this.repo = repo;
+            this.imapper = imapper;
         }
         // GET: api/Aluno
         [HttpGet]
-        public IEnumerable<Aluno> Get()
+        public IEnumerable<AlunoDto> Get()
         {
-            return repo.GetAllAlunos();
+            var alunos = repo.GetAllAlunos(true);
+            var alunosRetorno =imapper.Map<IEnumerable<AlunoDto>>(alunos);
+            return alunosRetorno;
         }
 
         // GET: api/Aluno/5
@@ -49,7 +55,7 @@ namespace SmartSchool.WepApi.Controllers
             }
             catch (Exception ex)
             {
-                
+
             }
         }
 
@@ -57,7 +63,7 @@ namespace SmartSchool.WepApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] Aluno value)
         {
-           
+
             repo.Update(value);
             repo.SaveChanges();
 
