@@ -14,8 +14,13 @@ namespace SmartSchool.WepApi.Helpers
         {
             CreateMap<Aluno, AlunoDto>()
                 .ForMember(
-                destino => destino.Nome,
-                opt => opt.MapFrom(src => $"{src.Nome} {src.Sobrenome }"));
+                destino => destino.Nome, opt => opt.MapFrom(src => $"{src.Nome} {src.Sobrenome }")
+
+                ).ForMember(dest => dest.Idade,
+                opt => opt.MapFrom(src => src.DataNasc.GetCurrentAge()));
+
+            CreateMap<AlunoDto, Aluno>();
+            CreateMap<Aluno, AlunoRegistrarDto>().ReverseMap();
         }
     }
 }

@@ -18,6 +18,7 @@ namespace SmartSchool.WepApi.Data
         public void Add<T>(T entity) where T : class
         {
             context.Add(entity);
+         
           
         }
 

@@ -45,29 +45,47 @@ namespace SmartSchool.WepApi.Controllers
         }
         // POST: api/Aluno
         [HttpPost]
-        public void Post([FromBody] Aluno value)
+        public IActionResult Post([FromBody] AlunoRegistrarDto model)
         {
             try
             {
-
-                repo.Add(value);
+                var aluno = imapper.Map<Aluno>(model);
+                repo.Add(aluno);
                 repo.SaveChanges();
+                return Created($"/api/aluno{model.Id}", this.imapper.Map<AlunoDto>(aluno));
             }
             catch (Exception ex)
             {
-
+                const string msgErro = "Erro no servidor";
+                return Problem(msgErro, null, 500, null, null);
             }
         }
 
         // PUT: api/Aluno/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Aluno value)
+        public IActionResult Put(int id, [FromBody] AlunoRegistrarDto model)
         {
+            try
+            {
+                var aluno = this.repo.GetAlunoById(id);
+                if (default(int) == id || aluno == null)
+                {
+                    return BadRequest();
+                }
 
-            repo.Update(value);
-            repo.SaveChanges();
+                this.imapper.Map(model, aluno);
 
-            return Ok();
+                repo.Update(aluno);
+                repo.SaveChanges();
+
+                return Created($"/api/aluno{model.Id}", this.imapper.Map<AlunoDto>(aluno));
+            }
+            catch (Exception ex)
+            {
+                const string msgErro= "Erro no servidor";
+                return Problem(msgErro, null, 500, null, null);
+            }
+      
         }
 
         // DELETE: api/ApiWithActions/5
