@@ -90,18 +90,29 @@ namespace SmartSchool.WepApi.Controllers
 
         // PUT: api/Aluno/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] Professor value)
+        public IActionResult Put(int id, [FromBody] ProfessorRegistrarDto model)
         {
-            var professor = repo.GetProfessorById(id, true);
-
-            if (id == 0 || professor == null)
+            try
             {
-                return BadRequest();
-            }
-            repo.Update(value);
-            repo.SaveChanges();
+                var professor = repo.GetProfessorById(id, true);
 
-            return Ok();
+                if (id == 0 || professor == null)
+                {
+                    return BadRequest();
+                }
+
+                professor= imapper.Map<Professor>(model);
+                repo.Update(professor);
+                repo.SaveChanges();
+
+                return Created("/api/Professor", $"{model}");
+            }
+            catch (Exception ex)
+            {
+
+                return Problem("Erro ao criar Professor");
+            }
+    
         }
 
         // DELETE: api/ApiWithActions/5
