@@ -17,6 +17,7 @@ namespace SmartSchool.WepApi.Controllers
     [ApiController]
     public class AlunoController : ControllerBase
     {
+        const string msgErroController = "Erro no servidor";
         private readonly IRepository repo;
         private readonly IMapper imapper;
         public AlunoController(IRepository repo, IMapper imapper)
@@ -26,11 +27,21 @@ namespace SmartSchool.WepApi.Controllers
         }
         // GET: api/Aluno
         [HttpGet]
-        public IEnumerable<AlunoDto> Get()
+        public IActionResult Get()
         {
-            var alunos = repo.GetAllAlunos(true);
-            var alunosRetorno =imapper.Map<IEnumerable<AlunoDto>>(alunos);
-            return alunosRetorno;
+            try
+            {
+                var alunos = repo.GetAllAlunos(true);
+                var alunosRetorno = imapper.Map<IEnumerable<AlunoDto>>(alunos);
+                return Ok(alunosRetorno);
+            }
+            catch (Exception)
+            {
+
+                return Problem(msgErroController);
+
+            }
+
         }
 
         // GET: api/Aluno/5
@@ -56,8 +67,8 @@ namespace SmartSchool.WepApi.Controllers
             }
             catch (Exception ex)
             {
-                const string msgErro = "Erro no servidor";
-                return Problem(msgErro, null, 500, null, null);
+
+                return Problem(msgErroController, null, 500, null, null);
             }
         }
 
@@ -82,10 +93,10 @@ namespace SmartSchool.WepApi.Controllers
             }
             catch (Exception ex)
             {
-                const string msgErro= "Erro no servidor";
-                return Problem(msgErro, null, 500, null, null);
+
+                return Problem(msgErroController, null, 500, null, null);
             }
-      
+
         }
 
         // DELETE: api/ApiWithActions/5

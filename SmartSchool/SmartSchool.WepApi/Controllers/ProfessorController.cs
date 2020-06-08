@@ -8,6 +8,8 @@ using SmartSchool.WepApi.Data;
 using SmartSchool.WepApi.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Net.Http;
+using AutoMapper;
+using SmartSchool.WepApi.Dtos;
 
 namespace SmartSchool.WepApi.Controllers
 {
@@ -16,16 +18,30 @@ namespace SmartSchool.WepApi.Controllers
     public class ProfessorController : ControllerBase
     {
         private readonly IRepository repo;
-        public ProfessorController(IRepository repo) 
+        private readonly IMapper imapper;
+        public ProfessorController(IRepository repo, IMapper imapper)
         {
             this.repo = repo;
-          
+            this.imapper = imapper;
         }
 
         [HttpGet]
-        public IEnumerable<Professor> Get()
+        public IActionResult Get()
         {
-            return repo.GetAllProfessores();
+            try
+            {
+                var professores = repo.GetAllProfessores();
+                var professorDto = imapper.Map<IEnumerable<ProfessorDto>>(professores);
+                return Ok(professorDto);
+
+            }
+            catch (Exception ex )
+            {
+
+                return Problem("Erro no servidor");
+            }
+     
+
         }
 
         // GET: api/Aluno/5
@@ -36,31 +52,38 @@ namespace SmartSchool.WepApi.Controllers
             {
                 Professor professor = repo.GetProfessorById(id, true);
                 if (professor != null)
-                    return Ok(professor);
+                {
+                    var professorDto = imapper.Map<ProfessorDto>(professor);
+                    return Ok(professorDto);
+                }
+           
                 else
-                    return NotFound("Voce se fudeu hein");
-            }
-            catch (Exception ex )
-            {
-                string messa = ex.Message;
-
-                return BadRequest();
-            }
-         
-        
-        }
-        // POST: api/Aluno
-        [HttpPost]
-        public void Post([FromBody] Professor value)
-        {
-            try
-            {
-                repo.Add(value);
-                repo.SaveChanges();
+                    return NotFound("Não encontrado");
             }
             catch (Exception ex)
             {
+                
 
+                return Problem("Erro servidor");
+            }
+
+
+        }
+        // POST: api/Aluno
+        [HttpPost]
+        public IActionResult Post([FromBody] ProfessorRegistrarDto model)
+        {
+            try
+            {
+                var professor = imapper.Map<Professor>(model);
+                repo.Add(professor);
+                repo.SaveChanges();
+
+                return Created("/api/Professor", $"{model}");
+            }
+            catch (Exception ex)
+            {
+                return Problem("Erro ao criar Professor");
 
             }
         }
