@@ -1,7 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -30,15 +33,25 @@ namespace SmartSchool.WepApi
             services.AddControllersWithViews()
                 .AddNewtonsoftJson(options =>
                 options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            services.AddDbContext<DataContext>(context => context.UseSqlite(Configuration.GetConnectionString("default"))) ;
+            services.AddDbContext<DataContext>(context => context.UseSqlite(Configuration.GetConnectionString("default")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 
             services.AddScoped<IRepository, Repository>();
-            services.AddSwaggerGen(options => options.SwaggerDoc("SmartSchoolAPI", new Microsoft.OpenApi.Models.OpenApiInfo() { 
-                Title="Smart School API",
-                Version="1.0"
-            }));
+
+            services.AddSwaggerGen(options =>
+            {
+                options.SwaggerDoc("SmartSchoolAPI",
+                                   new Microsoft.OpenApi.Models.OpenApiInfo()
+           {
+               Title = "Smart School API",
+               Version = "1.0"
+           });
+                var xmlCommentsFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlFullPath = Path.Combine(AppContext.BaseDirectory, xmlCommentsFile);
+                options.IncludeXmlComments(xmlFullPath);
+            });
+
             services.AddControllers();
         }
 
@@ -51,7 +64,15 @@ namespace SmartSchool.WepApi
             }
 
             app.UseRouting();
-            app.UseSwagger();
+            app.UseSwagger()
+                .UseSwaggerUI(x =>
+                {
+
+                    x.SwaggerEndpoint("/swagger/SmartSchoolAPI/swagger.json", "smartschoolapi");
+                    x.RoutePrefix = "";
+
+                }
+                );
             //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

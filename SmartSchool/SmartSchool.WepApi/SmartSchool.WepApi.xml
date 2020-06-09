@@ -1,0 +1,148 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SmartSchool.WepApi</name>
+    </assembly>
+    <members>
+        <member name="M:SmartSchool.WepApi.Controllers.AlunoController.#ctor(SmartSchool.WepApi.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            Construtor controller
+            Recebe via injecao a repositorio e mmaper
+            </summary>
+            <param name="repo"></param>
+            <param name="imapper"></param>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.AlunoController.Get">
+            <summary>
+            Metodo responsavel por devolver os alunos 
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.AlunoController.Get(System.Int32)">
+            <summary>
+            Metodo responsavel por filtrar o aluno pelo id
+            </summary>
+            <param name="id">Id do Aluno</param>
+            <returns>Retorna o aluno filtrado</returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.AlunoController.Post(SmartSchool.WepApi.Dtos.AlunoRegistrarDto)">
+            <summary>
+            Metodo que ira criar o aluno
+            </summary>
+            <param name="model">Corpo da requisicao</param>
+            <returns>Retorna mensagem indicando que o aluno foi criado</returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.AlunoController.Put(System.Int32,SmartSchool.WepApi.Dtos.AlunoRegistrarDto)">
+            <summary>
+            Atualizar o aluno
+            </summary>
+            <param name="id">Id do aluno</param>
+            <param name="model">Corpo da requisicao</param>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.AlunoController.Delete(System.Int32)">
+            <summary>
+            Remove o aluno
+            </summary>
+            <param name="id">Id do aluno</param>
+            <returns></returns>
+        </member>
+        <member name="T:SmartSchool.WepApi.Controllers.ProfessorController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.ProfessorController.#ctor(SmartSchool.WepApi.Data.IRepository,AutoMapper.IMapper)">
+            <summary>
+            Construtor da controoler Recebe na injeçao de dependencia um irepository e map
+            </summary>
+            <param name="repo">repositorio </param>
+            <param name="imapper">mapper</param>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.ProfessorController.Get">
+            <summary>
+            Metodo para listar todos os professores
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.ProfessorController.Get(System.Int32)">
+            <summary>
+            Retorna apenas o professor correspondente do ID
+            </summary>
+            <param name="id">Id do professor</param>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.ProfessorController.Post(SmartSchool.WepApi.Dtos.ProfessorRegistrarDto)">
+            <summary>
+            Metodo para cadastrar o professor
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.ProfessorController.Put(System.Int32,SmartSchool.WepApi.Dtos.ProfessorRegistrarDto)">
+            <summary>
+            Metodo para atualizar as informações do professor por meio do ID
+            </summary>
+            <param name="id">I do professor</param>
+            <param name="model">Corpo da requisicao</param>
+            <returns></returns>
+        </member>
+        <member name="M:SmartSchool.WepApi.Controllers.ProfessorController.Delete(System.Int32)">
+            <summary>
+            Remove professor
+            </summary>
+            <param name="id">Id do professor</param>
+            <returns></returns>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.AlunoDto.Matricula">
+            <summary>
+            Chave do Aluno, para outros neg�cios na Institui��o
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.AlunoDto.Nome">
+            <summary>
+            Nome � o Primeiro nome o o Sobrenome do Aluno
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.AlunoDto.Idade">
+            <summary>
+            Esta idade � o calculo relacionado a data de nascimento do Aluno
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.AlunoDto.Ativo">
+            <summary>
+            Ativar ou n�o o Aluno
+            </summary>
+        </member>
+        <member name="T:SmartSchool.WepApi.Dtos.ProfessorDto">
+            <summary>
+            Professsor DTo sera usada para retorno
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.ProfessorDto.Id">
+            <summary>
+            chave do professor controle interno
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.ProfessorDto.Registro">
+            <summary>
+            Registro do professor
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.ProfessorDto.Nome">
+            <summary>
+            nome do professor
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.ProfessorDto.Telefone">
+            <summary>
+            Telefone do professor
+            </summary>
+        </member>
+        <member name="P:SmartSchool.WepApi.Dtos.ProfessorDto.Ativo">
+            <summary>
+            Ativo ou nao
+            </summary>
+        </member>
+    </members>
+</doc>

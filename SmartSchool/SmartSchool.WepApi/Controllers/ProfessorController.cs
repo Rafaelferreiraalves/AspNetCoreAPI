@@ -13,18 +13,29 @@ using SmartSchool.WepApi.Dtos;
 
 namespace SmartSchool.WepApi.Controllers
 {
+    /// <summary>
+    /// 
+    /// </summary>
     [Route("api/[controller]")]
     [ApiController]
     public class ProfessorController : ControllerBase
     {
         private readonly IRepository repo;
         private readonly IMapper imapper;
+        /// <summary>
+        /// Construtor da controoler Recebe na injeçao de dependencia um irepository e map
+        /// </summary>
+        /// <param name="repo">repositorio </param>
+        /// <param name="imapper">mapper</param>
         public ProfessorController(IRepository repo, IMapper imapper)
         {
             this.repo = repo;
             this.imapper = imapper;
         }
-
+        /// <summary>
+        /// Metodo para listar todos os professores
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -45,6 +56,11 @@ namespace SmartSchool.WepApi.Controllers
         }
 
         // GET: api/Aluno/5
+        /// <summary>
+        /// Retorna apenas o professor correspondente do ID
+        /// </summary>
+        /// <param name="id">Id do professor</param>
+        /// <returns></returns>
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
@@ -70,6 +86,11 @@ namespace SmartSchool.WepApi.Controllers
 
         }
         // POST: api/Aluno
+        /// <summary>
+        /// Metodo para cadastrar o professor
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
         [HttpPost]
         public IActionResult Post([FromBody] ProfessorRegistrarDto model)
         {
@@ -79,7 +100,7 @@ namespace SmartSchool.WepApi.Controllers
                 repo.Add(professor);
                 repo.SaveChanges();
 
-                return Created("/api/Professor", $"{model}");
+                return Created("/api/Professor", $"{ Newtonsoft.Json.JsonConvert.SerializeObject( model)}");
             }
             catch (Exception ex)
             {
@@ -89,6 +110,12 @@ namespace SmartSchool.WepApi.Controllers
         }
 
         // PUT: api/Aluno/5
+        /// <summary>
+        /// Metodo para atualizar as informações do professor por meio do ID
+        /// </summary>
+        /// <param name="id">I do professor</param>
+        /// <param name="model">Corpo da requisicao</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] ProfessorRegistrarDto model)
         {
@@ -116,6 +143,11 @@ namespace SmartSchool.WepApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Remove professor
+        /// </summary>
+        /// <param name="id">Id do professor</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

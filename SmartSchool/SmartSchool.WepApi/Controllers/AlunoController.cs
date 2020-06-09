@@ -20,12 +20,22 @@ namespace SmartSchool.WepApi.Controllers
         const string msgErroController = "Erro no servidor";
         private readonly IRepository repo;
         private readonly IMapper imapper;
+        /// <summary>
+        /// Construtor controller
+        /// Recebe via injecao a repositorio e mmaper
+        /// </summary>
+        /// <param name="repo"></param>
+        /// <param name="imapper"></param>
         public AlunoController(IRepository repo, IMapper imapper)
         {
             this.repo = repo;
             this.imapper = imapper;
         }
         // GET: api/Aluno
+        /// <summary>
+        /// Metodo responsavel por devolver os alunos 
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public IActionResult Get()
         {
@@ -45,6 +55,11 @@ namespace SmartSchool.WepApi.Controllers
         }
 
         // GET: api/Aluno/5
+        /// <summary>
+        /// Metodo responsavel por filtrar o aluno pelo id
+        /// </summary>
+        /// <param name="id">Id do Aluno</param>
+        /// <returns>Retorna o aluno filtrado</returns>
         [HttpGet("{id:int}")]
         public IActionResult Get(int id)
         {
@@ -55,6 +70,11 @@ namespace SmartSchool.WepApi.Controllers
                 return NotFound("Voce se fudeu hein");
         }
         // POST: api/Aluno
+        /// <summary>
+        /// Metodo que ira criar o aluno
+        /// </summary>
+        /// <param name="model">Corpo da requisicao</param>
+        /// <returns>Retorna mensagem indicando que o aluno foi criado</returns>
         [HttpPost]
         public IActionResult Post([FromBody] AlunoRegistrarDto model)
         {
@@ -73,6 +93,12 @@ namespace SmartSchool.WepApi.Controllers
         }
 
         // PUT: api/Aluno/5
+        /// <summary>
+        /// Atualizar o aluno
+        /// </summary>
+        /// <param name="id">Id do aluno</param>
+        /// <param name="model">Corpo da requisicao</param>
+        /// <returns></returns>
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody] AlunoRegistrarDto model)
         {
@@ -100,6 +126,11 @@ namespace SmartSchool.WepApi.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
+        /// <summary>
+        /// Remove o aluno
+        /// </summary>
+        /// <param name="id">Id do aluno</param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {

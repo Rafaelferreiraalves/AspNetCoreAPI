@@ -26,12 +26,10 @@ namespace SmartSchool.WepApi.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             CultureInfo culture;
-            DateTimeStyles styles;
             DateTime result;
 
             // Parse a date and time with no styles.
             culture = CultureInfo.CreateSpecificCulture("en-US");
-            styles = DateTimeStyles.None;
 
             builder.Entity<AlunoDisciplina>()
                 .HasKey(AD => new { AD.AlunoId, AD.DisciplinaId });
