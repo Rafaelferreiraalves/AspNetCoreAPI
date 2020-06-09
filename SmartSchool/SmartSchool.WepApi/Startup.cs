@@ -35,6 +35,10 @@ namespace SmartSchool.WepApi
 
 
             services.AddScoped<IRepository, Repository>();
+            services.AddSwaggerGen(options => options.SwaggerDoc("SmartSchoolAPI", new Microsoft.OpenApi.Models.OpenApiInfo() { 
+                Title="Smart School API",
+                Version="1.0"
+            }));
             services.AddControllers();
         }
 
@@ -47,7 +51,7 @@ namespace SmartSchool.WepApi
             }
 
             app.UseRouting();
-
+            app.UseSwagger();
             //app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
